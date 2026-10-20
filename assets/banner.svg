@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" width="1200" height="420" role="img" aria-label="BIP39 Secure Onboarding banner">
+  <defs>
+    <linearGradient id="sky" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0618"/>
+      <stop offset="35%" stop-color="#1a0a2e"/>
+      <stop offset="65%" stop-color="#16213e"/>
+      <stop offset="100%" stop-color="#0f3460"/>
+    </linearGradient>
+    <linearGradient id="swirl1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f5d4" stop-opacity="0.85"/>
+      <stop offset="50%" stop-color="#7b2cbf" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#ff006e" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="swirl2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffbe0b" stop-opacity="0.75"/>
+      <stop offset="50%" stop-color="#fb5607" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#3a86ff" stop-opacity="0.7"/>
+    </linearGradient>
+    <linearGradient id="swirl3" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06d6a0" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#118ab2" stop-opacity="0.65"/>
+    </linearGradient>
+    <pattern id="mosaic" width="28" height="28" patternUnits="userSpaceOnUse" patternTransform="rotate(12)">
+      <rect width="13" height="13" x="1" y="1" rx="2" fill="#ff006e" opacity="0.35"/>
+      <rect width="13" height="13" x="15" y="1" rx="2" fill="#00f5d4" opacity="0.3"/>
+      <rect width="13" height="13" x="1" y="15" rx="2" fill="#ffbe0b" opacity="0.28"/>
+      <rect width="13" height="13" x="15" y="15" rx="2" fill="#7b2cbf" opacity="0.32"/>
+    </pattern>
+    <filter id="neon" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <clipPath id="organicBottom">
+      <path d="M0,280 C80,240 160,320 280,300 C400,280 480,220 600,260 C720,300 840,240 960,270 C1080,300 1140,250 1200,280 L1200,420 L0,420 Z"/>
+    </clipPath>
+  </defs>
+  <rect width="1200" height="420" fill="url(#sky)"/>
+  <g opacity="0.9">
+    <circle cx="90" cy="48" r="1.5" fill="#fff"/>
+    <circle cx="180" cy="72" r="1" fill="#00f5d4"/>
+    <circle cx="260" cy="36" r="1.2" fill="#ffbe0b"/>
+    <circle cx="340" cy="90" r="1" fill="#fff"/>
+    <circle cx="420" cy="42" r="1.8" fill="#ff006e"/>
+    <circle cx="520" cy="68" r="1" fill="#fff"/>
+    <circle cx="610" cy="30" r="1.3" fill="#00f5d4"/>
+    <circle cx="700" cy="80" r="1" fill="#ffbe0b"/>
+    <circle cx="790" cy="50" r="1.6" fill="#fff"/>
+    <circle cx="880" cy="95" r="1" fill="#7b2cbf"/>
+    <circle cx="970" cy="40" r="1.4" fill="#00f5d4"/>
+    <circle cx="1060" cy="70" r="1" fill="#fff"/>
+    <circle cx="1140" cy="55" r="1.7" fill="#ff006e"/>
+  </g>
+  <path d="M-20,200 C100,80 200,320 350,140 C500,-20 550,280 700,100 C850,-40 950,260 1100,120 C1180,50 1220,180 1250,100" fill="none" stroke="url(#swirl1)" stroke-width="18" stroke-linecap="round" opacity="0.55" filter="url(#softGlow)"/>
+  <path d="M-40,280 C120,160 180,360 320,220 C460,80 580,340 720,200 C860,60 980,300 1150,180" fill="none" stroke="url(#swirl2)" stroke-width="12" stroke-linecap="round" opacity="0.5" filter="url(#softGlow)"/>
+  <path d="M50,350 C180,250 280,380 420,290 C560,200 640,380 780,300 C920,220 1020,360 1200,280" fill="none" stroke="url(#swirl3)" stroke-width="10" stroke-linecap="round" opacity="0.45"/>
+  <g clip-path="url(#organicBottom)">
+    <rect width="1200" height="420" fill="url(#mosaic)"/>
+    <rect width="1200" height="420" fill="#0a0618" opacity="0.35"/>
+  </g>
+  <path d="M0,360 C60,300 100,340 160,280 C200,240 220,300 280,260 C320,230 340,290 400,250 C450,220 480,300 540,270 C590,245 620,310 680,275 C730,250 760,320 820,285 C870,255 900,330 960,290 C1010,260 1040,340 1100,300 C1140,275 1170,320 1200,290 L1200,420 L0,420 Z" fill="#12081f" opacity="0.85"/>
+  <path d="M0,380 C80,340 140,370 200,330 C260,290 300,360 380,320 C450,285 500,360 580,330 C650,305 700,370 780,335 C850,305 900,375 980,340 C1050,310 1100,370 1200,340 L1200,420 L0,420 Z" fill="#1a0a2e" opacity="0.7"/>
+  <g stroke="#00f5d4" stroke-width="1" opacity="0.25" fill="none">
+    <path d="M80,180 L80,240 L140,240"/>
+    <path d="M1000,160 L1000,220 L1060,220"/>
+    <circle cx="80" cy="180" r="3" fill="#00f5d4"/>
+    <circle cx="1000" cy="160" r="3" fill="#ff006e"/>
+  </g>
+  <g filter="url(#neon)">
+    <text x="600" y="175" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="52" font-weight="800" fill="#ffffff" letter-spacing="4">BIP39 ONBOARDING</text>
+  </g>
+  <text x="600" y="175" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="52" font-weight="800" fill="#ffffff" letter-spacing="4" opacity="0.95">BIP39 ONBOARDING</text>
+  <text x="600" y="220" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="500" fill="#00f5d4" letter-spacing="6">SECURE · ANDROID · COMPOSE</text>
+  <line x1="380" y1="245" x2="820" y2="245" stroke="url(#swirl1)" stroke-width="2" opacity="0.8" filter="url(#neon)"/>
+  <text x="600" y="285" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="16" fill="#c9b8ff" letter-spacing="2" opacity="0.9">Production-ready seed phrase onboarding · PIN · Panic PIN · PDF/QR</text>
+  <path d="M20,20 Q40,10 50,30 T80,25" fill="none" stroke="#ff006e" stroke-width="2" opacity="0.6" filter="url(#neon)"/>
+  <path d="M1180,20 Q1160,10 1150,30 T1120,25" fill="none" stroke="#00f5d4" stroke-width="2" opacity="0.6" filter="url(#neon)"/>
+</svg>
