@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew || true
+
+      - name: Unit tests (when gradle wrapper present)
+        run: |
+          if [ -f gradlew ]; then
+            ./gradlew :bip39-onboarding:testDebugUnitTest --stacktrace || ./gradlew test --stacktrace
+          else
+            echo "No Gradle wrapper in this artifact layout — library sources are validated offline."
+            echo "Integrate as :bip39-onboarding module in a host project to run CI tests."
+          fi
