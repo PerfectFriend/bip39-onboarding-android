@@ -1,5 +1,6 @@
 package com.example.bip39onboarding.ui.onboarding
 
+import android.util.Base64
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -9,34 +10,33 @@ import com.example.bip39onboarding.data.OnboardingStep
 import com.example.bip39onboarding.data.SeedPayload
 import com.example.bip39onboarding.security.Bip39Manager
 import com.example.bip39onboarding.security.CryptoUtils
+import com.example.bip39onboarding.security.EspSeedStorageAdapter
 import com.example.bip39onboarding.security.SecureSeedStorage
-import android.util.Base64
+import com.example.bip39onboarding.security.SeedStorage
 
 class OnboardingViewModel(
-    private val storage: SecureSeedStorage
+    private val storage: SeedStorage
 ) : ViewModel() {
+
+    constructor(storage: SecureSeedStorage) : this(EspSeedStorageAdapter(storage))
 
     var step by mutableStateOf(OnboardingStep.SPLASH)
         private set
-
     var strength by mutableStateOf(Bip39Manager.Strength.WORDS_12)
         private set
-
     var mnemonic: CharArray? = null
         private set
-
+    var passphrase: CharArray? = null
+        private set
     var acceptedDisclaimer by mutableStateOf(false)
-
     var verifyPositions: List<Int> = emptyList()
         private set
-
     var verifyOptions: Map<Int, List<String>> = emptyMap()
         private set
-
     var verifyAttempts by mutableIntStateOf(0)
         private set
-
     var errorMessage by mutableStateOf<String?>(null)
+    var enablePassphraseStep: Boolean = true
 
     fun goTo(step: OnboardingStep) {
         this.step = step
@@ -67,9 +67,7 @@ class OnboardingViewModel(
         val m = mnemonic ?: return
         val words = String(m).split(" ")
         verifyPositions = Bip39Manager.pickRandomPositions(words.size)
-        verifyOptions = verifyPositions.associateWith { pos ->
-            Bip39Manager.generateOptions(words[pos])
-        }
+        verifyOptions = verifyPositions.associateWith { pos -> Bip39Manager.generateOptions(words[pos]) }
         verifyAttempts = 0
         goTo(OnboardingStep.VERIFY)
     }
@@ -79,7 +77,7 @@ class OnboardingViewModel(
         val words = String(m).split(" ")
         val allCorrect = verifyPositions.all { pos -> selected[pos] == words[pos] }
         if (allCorrect) {
-            goTo(OnboardingStep.SET_PIN)
+            if (enablePassphraseStep) goTo(OnboardingStep.SET_PASSPHRASE) else goTo(OnboardingStep.SET_PIN)
             return true
         }
         verifyAttempts++
@@ -87,9 +85,21 @@ class OnboardingViewModel(
             errorMessage = "Too many errors. Go back and write the phrase again."
             goTo(OnboardingStep.SHOW_MNEMONIC)
         } else {
-            errorMessage = "Incorrect. Attempt ${verifyAttempts}/3"
+            errorMessage = "Incorrect. Attempt $verifyAttempts/3"
         }
         return false
+    }
+
+    fun setPassphrase(pp: CharArray?) {
+        Bip39Manager.clear(passphrase)
+        passphrase = pp?.copyOf()
+        goTo(OnboardingStep.SET_PIN)
+    }
+
+    fun skipPassphrase() {
+        Bip39Manager.clear(passphrase)
+        passphrase = null
+        goTo(OnboardingStep.SET_PIN)
     }
 
     fun completeSetup(pin: CharArray, panicPin: CharArray): SeedPayload? {
@@ -106,13 +116,13 @@ class OnboardingViewModel(
         val salt = Base64.decode(payload.salt, Base64.NO_WRAP)
         val pinHash = CryptoUtils.hashPin(pin, salt)
         val panicHash = CryptoUtils.hashPin(panicPin, salt)
+        val pp = passphrase ?: charArrayOf()
         val fp = Bip39Manager.fingerprint(m)
-        storage.save(payload, pinHash, panicHash, strength.count, fp)
-        val result = SeedPayload(mnemonic = m.copyOf(), fingerprint = fp, wordCount = strength.count)
-        Bip39Manager.clear(mnemonic)
-        mnemonic = null
-        pin.fill('\u0000')
-        panicPin.fill('\u0000')
+        storage.save(payload, pinHash, panicHash, strength.count, fp, pp.isNotEmpty())
+        val result = SeedPayload(m.copyOf(), fp, strength.count, pp.copyOf(), pp.isNotEmpty())
+        Bip39Manager.clear(mnemonic); mnemonic = null
+        Bip39Manager.clear(passphrase); passphrase = null
+        pin.fill('\u0000'); panicPin.fill('\u0000')
         goTo(OnboardingStep.DONE)
         return result
     }
@@ -126,12 +136,12 @@ class OnboardingViewModel(
         mnemonic = restored
         strength = if (restored.count { it == ' ' } + 1 >= 24)
             Bip39Manager.Strength.WORDS_24 else Bip39Manager.Strength.WORDS_12
-        goTo(OnboardingStep.SET_PIN)
+        if (enablePassphraseStep) goTo(OnboardingStep.SET_PASSPHRASE) else goTo(OnboardingStep.SET_PIN)
     }
 
     override fun onCleared() {
-        Bip39Manager.clear(mnemonic)
-        mnemonic = null
+        Bip39Manager.clear(mnemonic); mnemonic = null
+        Bip39Manager.clear(passphrase); passphrase = null
         super.onCleared()
     }
 }
