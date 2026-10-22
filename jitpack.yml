@@ -1,5 +1,30 @@
 jdk:
   - openjdk17
 
+before_install:
+  - |
+    set -e
+    if [ ! -f ./gradlew ]; then
+      curl -fsSL -o gradlew https://raw.githubusercontent.com/gradle/gradle/v8.9.0/gradlew
+      chmod +x gradlew
+    fi
+    mkdir -p gradle/wrapper
+    if [ ! -f gradle/wrapper/gradle-wrapper.jar ]; then
+      curl -fsSL -o gradle/wrapper/gradle-wrapper.jar \
+        https://github.com/gradle/gradle/raw/v8.9.0/gradle/wrapper/gradle-wrapper.jar
+    fi
+    if [ ! -f gradle/wrapper/gradle-wrapper.properties ]; then
+      printf '%s\n' \
+        'distributionBase=GRADLE_USER_HOME' \
+        'distributionPath=wrapper/dists' \
+        'distributionUrl=https\://services.gradle.org/distributions/gradle-8.9-bin.zip' \
+        'networkTimeout=10000' \
+        'validateDistributionUrl=true' \
+        'zipStoreBase=GRADLE_USER_HOME' \
+        'zipStorePath=wrapper/dists' \
+        > gradle/wrapper/gradle-wrapper.properties
+    fi
+    chmod +x gradlew
+
 install:
-  - ./gradlew :library:publishToMavenLocal -x test
+  - ./gradlew :library:publishToMavenLocal -x test --no-daemon --stacktrace
