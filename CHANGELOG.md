@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.1 — 2026-10-22
+
+### Open-source engine polish
+- Multi-module layout: `:library` + `:sample`
+- Gradle Wrapper (8.9) + root/settings for real CI
+- README rewritten for engine positioning (v1.2 features)
+- CONTRIBUTING.md
+- CI runs `:library:testDebugUnitTest` and `:sample:assembleDebug`
+
 ## 1.2.0 — 2026-10-22
 
 ### Added
@@ -15,12 +24,8 @@
 
 ## 1.1.0 — 2026-10-22
 
-### Added
-- Full restore: paste / QR / PDF import
-- PinUnlockScreen with exponential lockout
-- Clipboard auto-clear, step progress, EN/RU strings
-- Library module, unit tests, sample host, CI, MIT LICENSE
+- Full restore, PinUnlock, lockout, tests, sample, CI, MIT
 
 ## 1.0.0 — 2026-10-20
 
-- Initial create flow, security core, docs, English README + banner
+- Initial create flow, security core, docs, README + banner
