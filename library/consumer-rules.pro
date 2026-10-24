@@ -1,0 +1,3 @@
+-keep class com.example.bip39onboarding.** { *; }
+-dontwarn com.google.crypto.tink.**
+-dontwarn com.google.zxing.**
